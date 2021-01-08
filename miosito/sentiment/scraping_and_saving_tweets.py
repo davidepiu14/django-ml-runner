@@ -19,8 +19,7 @@ twitterAPI = tweepy.API(auth)
 
 def clean_text(tweet):
     """funzione che tramite le regular expression rimuove i pattern all'iinterno delle parentesi"""
-
-    return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(https?\S+)", " ", tweet).split())
+     return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(https?\S+)", " ", tweet).split())
 
 
 def get_tweet_sentiment(tweet):
@@ -57,8 +56,8 @@ def get_tweets_sentiment(query, count=10):
             parsed_tweet['date tweet']= tweet.created_at#data creazione del tweet, data in formato estero
             parsed_tweet['sentiment'] = get_tweet_sentiment(tweet.full_text)#per ogni tweet richiama la funzione get_tweet_sentiment
             print(tweet.full_text)
-            if tweet.retweet_count > 0:
-                """aggiunge i tweet che sono hanno subito retweet solo se il testo non è presente tra i tweet salvati"""
+            if tweet.retweet_count > 0:#aggiunge i tweet che sono hanno subito retweet solo se il testo non è presente tra i tweet salvati
+
                 if parsed_tweet['text'] not in tweets:
                     tweets.append(parsed_tweet)
             else:
@@ -69,8 +68,7 @@ def get_tweets_sentiment(query, count=10):
         print("Error : %s" % str(e))
 
 def dump_tweets(query, count):
-    """richiama get_tweet_sentiment e salva i tweet all'interno di
-    un file csv"""
+    """richiama get_tweet_sentiment e salva i tweet all'interno di un file csv"""
     tweets = get_tweets_sentiment(query=query,
                                   count=count)
     file_path = "tweets_%s.csv" % query.replace(' ', '_')#il nome del file comprende le parole oggetto della query

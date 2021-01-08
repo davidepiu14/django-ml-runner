@@ -32,7 +32,7 @@ class PostListView(ListView):
 
 
 class UserPostListView(ListView):
-    """mostra la lista dei post filtrato per utente"""
+    """lista dei post filtrato per utente"""
     model = Post
     template_name = 'blog/user_posts.html'
     context_object_name = 'posts'
@@ -79,7 +79,6 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """cancellazione del post permessa anche in questo caso solo all'autore del post in questione"""
     model = Post
     success_url = '/'#url a cui si viene rimandati una volta cancellato il post
-
     def test_func(self):
         post = self.get_object()
         if self.request.user == post.author:
@@ -89,27 +88,16 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def dahsboard_sentiment(request):
     """ import dataset csv per visualizzare i dati con HighCharts ed inoltrare i dati al template dashboard.html """
-    # read data
-    df = pd.read_csv("/home/davide/Scrivania/DAVIDE_PIU_WAAT_00106/00106_piu/miosito/sentiment/data/media_polarity.csv")
+    df = pd.read_csv("/home/davide/Scrivania/DAVIDE_PIU_WAAT_00106/00106_piu/miosito/sentiment/data/media_polarity.csv")  # read data
     date=list(df['new_date_column'].values)
-
-    values_trump,values_biden = list(df['Donald Trump'].values),list(df['Joe Biden'].values)#qui sono presenti i valori di polarity dei due candidati
-
-    # """table_content verrà utilizzata per la crezione di una tabella nella pagina della dashboard"""
+    values_trump,values_biden = list(df['Donald Trump'].values),list(df['Joe Biden'].values)#valori di polarity dei due candidati
     table_content = df.to_html(index=None)
     table_content = table_content.replace('class="dataframe"', "class='table table-striped'")
     table_content = table_content.replace('border="2"', "")
-
     rs_pie = pd.read_csv("/home/davide/Scrivania/DAVIDE_PIU_WAAT_00106/00106_piu/miosito/sentiment/data/data_for_pie.csv")#dataframe per la creazione dei dount charts
-
     pieTrump,pieBiden = list(rs_pie['trump']),list(rs_pie['biden'])
-
-
     Trump_neg,Trump_net,Trump_pos   = (pieTrump[0]),(pieTrump[1]),(pieTrump[2])#assegnate percentuali di tweet neg,pos,neutr relativi a Trump
-
     Biden_neg,Biden_net,Biden_pos = (pieBiden[0]),(pieBiden[1]),(pieBiden[2])#assegnate percentuali di tweet neg,pos,neutr relativi a Biden
-
-
     context = {
         'data': date,
         'Trump': values_trump,
@@ -121,6 +109,6 @@ def dahsboard_sentiment(request):
         'Biden_positivi':Biden_pos,
         'Biden_negativi':Biden_neg,
         'Biden_neutrali':Biden_net
-               }
+    }
 
-    return render(request, 'blog/dashboard.html', context=context)#render inoltra una request ad un template a cui verrano passati dei dati
+    return render(request, 'blog/dashboard.html', context=context)#inoltra request ad un template a cui verrano passati dei dati
