@@ -13,9 +13,13 @@ from django.views.generic import (
 
 from .models import Post
 
+CSV_POLARITY_PATH = "miosito/sentiment/media_polarity.csv"
+
+CSV_PIE_PATH = 'miosito/sentiment/data_for_pie.csv'
+
 
 def home(request):
-    """nella pagina home.html vengono mostrati tutti i Post"""
+    """Home page function"""
     context = {
         'posts': Post.objects.all()
     }
@@ -88,13 +92,13 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def dahsboard_sentiment(request):
     """ import dataset csv per visualizzare i dati con HighCharts ed inoltrare i dati al template dashboard.html """
-    df = pd.read_csv("/home/davide/Scrivania/DAVIDE_PIU_WAAT_00106/00106_piu/miosito/sentiment/data/media_polarity.csv")  # read data
+    df = pd.read_csv(CSV_POLARITY_PATH)  # read data
     date=list(df['new_date_column'].values)
     values_trump,values_biden = list(df['Donald Trump'].values),list(df['Joe Biden'].values)#valori di polarity dei due candidati
     table_content = df.to_html(index=None)
     table_content = table_content.replace('class="dataframe"', "class='table table-striped'")
     table_content = table_content.replace('border="2"', "")
-    rs_pie = pd.read_csv("/home/davide/Scrivania/DAVIDE_PIU_WAAT_00106/00106_piu/miosito/sentiment/data/data_for_pie.csv")#dataframe per la creazione dei dount charts
+    rs_pie = pd.read_csv(CSV_PIE_PATH)#dataframe per la creazione dei dount charts
     pieTrump,pieBiden = list(rs_pie['trump']),list(rs_pie['biden'])
     Trump_neg,Trump_net,Trump_pos   = (pieTrump[0]),(pieTrump[1]),(pieTrump[2])#assegnate percentuali di tweet neg,pos,neutr relativi a Trump
     Biden_neg,Biden_net,Biden_pos = (pieBiden[0]),(pieBiden[1]),(pieBiden[2])#assegnate percentuali di tweet neg,pos,neutr relativi a Biden
