@@ -2,12 +2,9 @@ README
 
 ## Directory
 
-All'interno della directory 'twitter_sentiment_analyzer' è presente sia il progetto della Web App realizzata con Django che la directory 'sentiment' in cui è presente il codice riguardante la sentiment. All'interno di twitter_sentiment_analyzer/blog/views.py c'è la view relativa alla dashboard implementata e all'interno di twitter_sentiment_analyzer/blog/templates/blog/.htmldashboard si trova appunto il template in cui ci sono i grafici. 
-
-
-- twitter_sentiment_analyzer/sentiment: directory in cui si trovano file relativi alla sentiment;
-- twitter_sentiment_analyzer/blog/views.py: file views in cui si trova la view relativa al grafico
-- twitter_sentiment_analyzer/blog/templates/blog/dashboard.html: template in cui trova la dashboard realizzata con HighCharts
+Inside 'twitter_sentiment_analyzer/':
+- Django Web App
+- /sentiment: sentiment analysis code
 
 ## Output 
 
