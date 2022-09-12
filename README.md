@@ -2,7 +2,7 @@ README
 
 ## Directory
 
-Inside twitter_sentiment_analyzer/:
+Inside /twitter_sentiment_analyzer:
 - Django Web App
 - /sentiment: sentiment analysis code
 
