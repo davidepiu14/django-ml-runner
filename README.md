@@ -1,5 +1,3 @@
-README
-
 ## Directory
 
 Inside /twitter_sentiment_analyzer:
