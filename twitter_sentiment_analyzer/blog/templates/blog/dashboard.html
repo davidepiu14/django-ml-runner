@@ -1,0 +1,172 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <title>Dashboard Sentiment Trump Biden</title>
+
+	  <!-- Highcharts display -->
+	  <div id="linechart" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+      <div id="piechartTrump" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+      <div id="piechartBiden" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+
+
+
+
+    <!-- Chartjs libraries -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+    <script>
+      _categories = {{data|safe}};
+      Highcharts.chart('linechart', {
+
+	  title: {
+              text: 'Sentiment Polarity '
+	  },
+          xAxis: {
+              categories:_categories,
+              crosshair: true
+	  },
+	  yAxis:{
+              title: {
+                  text: 'Polarity'
+              }
+	  },
+	  tooltip: {
+              headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+              pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+		  '<td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+              footerFormat: '</table>',
+              shared: true,
+              useHTML: true
+	  },
+	  plotOptions: {
+              column: {
+		  pointPadding: 0.2,
+		  borderWidth: 0
+        }
+	  },
+	  series: [{
+              name: 'Donald Trump',
+              data: {{ Trump }}
+      },
+          {
+              name: 'Joe Biden',
+              data: {{ Biden }}
+      }
+
+
+      ]
+      });
+    </script>
+
+<script>
+          Highcharts.chart('piechartTrump', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+    },
+    title: {
+        text: 'Trump<br>sentiment<br>Tweets',
+        align: 'center',
+        verticalAlign: 'middle',
+        y: 60
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            dataLabels: {
+                enabled: true,
+                distance: -50,
+                style: {
+                    fontWeight: 'bold',
+                    color: 'white'
+                }
+            },
+            startAngle: -90,
+            endAngle: 90,
+            center: ['50%', '75%'],
+            size: '110%'
+        }
+    },
+    series: [{
+        type: 'pie',
+        name: 'Sentiment Donald Trump',
+        innerSize: '50%',
+        colorByPoint: true,
+        data:[
+             ['neutrali',{{ Trump_neutrali }}],
+             ['negativi',{{ Trump_negativi }}],
+             ['positivi',{{ Trump_positivi }}],
+        ]
+    }]
+});
+    </script>
+     <script>
+          Highcharts.chart('piechartBiden', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+    },
+    title: {
+        text: 'Biden<br>sentiment<br>Tweets',
+        align: 'center',
+        verticalAlign: 'middle',
+        y: 60
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            dataLabels: {
+                enabled: true,
+                distance: -50,
+                style: {
+                    fontWeight: 'bold',
+                    color: 'white'
+                }
+            },
+            startAngle: -90,
+            endAngle: 90,
+            center: ['50%', '75%'],
+            size: '110%'
+        }
+    },
+    series: [{
+        type: 'pie',
+        name: 'Sentiment Joe Biden',
+        innerSize: '50%',
+        colorByPoint: true,
+        data:[
+             ['neutrali',{{ Biden_neutrali }}],
+             ['negativi',{{ Biden_negativi }}],
+             ['positivi',{{ Biden_positivi }}],
+        ]
+    }]
+});
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<!-- Table data -->
+	  <h2 class="pt-3">Dettagli Polarity</h2>
+	  <div class="table-responsive">
+	    {{table_data|safe}}
+	  </div>
+
+{% endblock %}
