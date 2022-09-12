@@ -27,7 +27,9 @@ def home(request):
 
 
 class PostListView(ListView):
-    """Post ordinati in base alla data di creazione, vengono mostrati 5 post per pagina"""
+    """
+    PostListView: It shows last 5 post
+    """
     model = Post
     template_name = 'blog/home.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
@@ -36,7 +38,9 @@ class PostListView(ListView):
 
 
 class UserPostListView(ListView):
-    """lista dei post filtrato per utente"""
+    """
+    UserPostListView: Post filtered by user
+    """
     model = Post
     template_name = 'blog/user_posts.html'
     context_object_name = 'posts'
@@ -52,7 +56,9 @@ class PostDetailView(DetailView):
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
-    """Permette di creare un Post, richiede che l'utente sia loggato"""
+    """
+    PostCreateView: allows users to create new posts (authentication required)
+    """
     model = Post
     fields = ['title', 'content']
 
@@ -62,8 +68,9 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    """Per modificare il Post è sempre necessario essere loggati, si possono modificare i campi
-    relativi al titolo ed al contenuto"""
+    """
+    PostUpdateView: it allows to edit title and content (login required)
+    """
     model = Post
     fields = ['title', 'content']
 
@@ -80,7 +87,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    """cancellazione del post permessa anche in questo caso solo all'autore del post in questione"""
+    """PostDeleteView: Posts can be deleted only from the author"""
     model = Post
     success_url = '/'#url a cui si viene rimandati una volta cancellato il post
     def test_func(self):
@@ -91,17 +98,21 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 def dahsboard_sentiment(request):
-    """ import dataset csv per visualizzare i dati con HighCharts ed inoltrare i dati al template dashboard.html """
+    """
+    function: import data from csv and it shows sentiment results in dashboard.html 
+    @return: render template
+    """
+    
     df = pd.read_csv(CSV_POLARITY_PATH)  # read data
     date=list(df['new_date_column'].values)
     values_trump,values_biden = list(df['Donald Trump'].values),list(df['Joe Biden'].values)#valori di polarity dei due candidati
     table_content = df.to_html(index=None)
     table_content = table_content.replace('class="dataframe"', "class='table table-striped'")
     table_content = table_content.replace('border="2"', "")
-    rs_pie = pd.read_csv(CSV_PIE_PATH)#dataframe per la creazione dei dount charts
+    rs_pie = pd.read_csv(CSV_PIE_PATH)
     pieTrump,pieBiden = list(rs_pie['trump']),list(rs_pie['biden'])
-    Trump_neg,Trump_net,Trump_pos   = (pieTrump[0]),(pieTrump[1]),(pieTrump[2])#assegnate percentuali di tweet neg,pos,neutr relativi a Trump
-    Biden_neg,Biden_net,Biden_pos = (pieBiden[0]),(pieBiden[1]),(pieBiden[2])#assegnate percentuali di tweet neg,pos,neutr relativi a Biden
+    Trump_neg,Trump_net,Trump_pos   = (pieTrump[0]),(pieTrump[1]),(pieTrump[2])#Trump neg,pos,neutr percentage
+    Biden_neg,Biden_net,Biden_pos = (pieBiden[0]),(pieBiden[1]),(pieBiden[2])#Biden tweet neg,pos,neutr percentage
     context = {
         'data': date,
         'Trump': values_trump,
