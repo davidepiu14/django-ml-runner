@@ -1,4 +1,5 @@
 import pandas as pd
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
@@ -86,7 +87,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """PostDeleteView: Posts can be deleted only from the author"""
     model = Post
-    success_url = '/'#url a cui si viene rimandati una volta cancellato il post
+    success_url = '/'
     def test_func(self):
         post = self.get_object()
         if self.request.user == post.author:
@@ -99,28 +100,26 @@ def dahsboard_sentiment(request):
     function: import data from csv and it shows sentiment results in dashboard.html 
     @return: render template
     """
-    
     df = pd.read_csv(CSV_POLARITY_PATH)  # read data
     date=list(df['new_date_column'].values)
-    values_trump,values_biden = list(df['Donald Trump'].values),list(df['Joe Biden'].values)#valori di polarity dei due candidati
     table_content = df.to_html(index=None)
     table_content = table_content.replace('class="dataframe"', "class='table table-striped'")
     table_content = table_content.replace('border="2"', "")
     rs_pie = pd.read_csv(CSV_PIE_PATH)
-    pieTrump,pieBiden = list(rs_pie['trump']),list(rs_pie['biden'])
-    Trump_neg,Trump_net,Trump_pos   = (pieTrump[0]),(pieTrump[1]),(pieTrump[2])#Trump neg,pos,neutr percentage
-    Biden_neg,Biden_net,Biden_pos = (pieBiden[0]),(pieBiden[1]),(pieBiden[2])#Biden tweet neg,pos,neutr percentage
-    context = {
-        'data': date,
-        'Trump': values_trump,
-        'Biden': values_biden,
-        'table_data': table_content,
-        'Trump_positivi':Trump_pos,
-        'Trump_negativi':Trump_neg,
-        'Trump_neutrali':Trump_net,
-        'Biden_positivi':Biden_pos,
-        'Biden_negativi':Biden_neg,
-        'Biden_neutrali':Biden_net
-    }
-
-    return render(request, 'blog/dashboard.html', context=context)#inoltra request ad un template a cui verrano passati dei dati
+    
+    return render(
+        request, 
+        'blog/dashboard.html', 
+        context={
+            'data': date,
+            'Trump': list(df['Donald Trump'].values),
+            'Biden': list(df['Joe Biden'].values),
+            'table_data': table_content,
+            'Trump_positivi': list(rs_pie['trump'])[2],
+            'Trump_negativi': list(rs_pie['trump'])[0],
+            'Trump_neutrali': list(rs_pie['trump'])[1],
+            'Biden_positivi': list(rs_pie['biden'])[2],
+            'Biden_negativi': list(rs_pie['biden'])[0],
+            'Biden_neutrali': list(rs_pie['biden'])[1]
+        }
+    )
