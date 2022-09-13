@@ -8,7 +8,7 @@ git-filter-repo==2.34.0
 idna==3.3
 joblib==1.1.0
 nltk==3.7
-numpy==1.23.3
+numpy==1.21.6
 oauthlib==3.2.1
 pandas==1.4.4
 Pillow==9.2.0
