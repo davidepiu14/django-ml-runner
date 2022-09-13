@@ -13,8 +13,8 @@ from django.views.generic import (
 )
 
 
-CSV_POLARITY_PATH = "sentiment/data/media_polarity.csv"
-CSV_PIE_PATH = "sentiment/data_for_pie.csv"
+CSV_POLARITY_PATH = "/home/davide/code/personal/django_sentiment_analysis/twitter_sentiment_analyzer/sentiment/media_polarity.csv"
+CSV_PIE_PATH = "/home/davide/code/personal/django_sentiment_analysis/twitter_sentiment_analyzer/sentiment/data_for_pie.csv"
 
 def home(request):
     """Home page function"""
@@ -100,20 +100,22 @@ def dahsboard_sentiment(request):
     function: import data from csv and it shows sentiment results in dashboard.html 
     @return: render template
     """
-    df = pd.read_csv(CSV_POLARITY_PATH)  # read data
+    df = pd.read_csv(CSV_POLARITY_PATH)  
+    rs_pie = pd.read_csv(CSV_PIE_PATH)
     date=list(df['new_date_column'].values)
     table_content = df.to_html(index=None)
-    table_content = table_content.replace('class="dataframe"', "class='table table-striped'")
-    table_content = table_content.replace('border="2"', "")
-    rs_pie = pd.read_csv(CSV_PIE_PATH)
+    table_content = table_content.replace(
+        'class="dataframe"', 
+        "class='table table-striped'"
+    )
     
     return render(
         request, 
         'blog/dashboard.html', 
         context={
             'data': date,
-            'Trump': list(df['Donald Trump'].values),
-            'Biden': list(df['Joe Biden'].values),
+            'Trump': list(df['trump'].values),
+            'Biden': list(df['biden'].values),
             'table_data': table_content,
             'Trump_positivi': list(rs_pie['trump'])[2],
             'Trump_negativi': list(rs_pie['trump'])[0],

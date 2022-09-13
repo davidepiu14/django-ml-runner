@@ -16,7 +16,11 @@ auth = OAuthHandler(
     TWITTER_CONSUMER_SECRET
 )
 
-auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
+auth.set_access_token(
+    TWITTER_ACCESS_TOKEN, 
+    TWITTER_ACCESS_TOKEN_SECRET
+)
+
 twitterAPI = tweepy.API(
     auth,
     wait_on_rate_limit = True ,
@@ -44,8 +48,10 @@ def get_tweet_sentiment(tweet):
 
 def get_tweets_sentiment(query, count=10):
     """
-    Return tweet sentiment given a query, it return 10 tweets per page, a mix beetween most populars and recents tweets
-    @return: """
+    Return tweet sentiment given a query, it return 10 tweets per page, 
+    a mix beetween most populars and recents tweets
+    @return: 
+    """
     tweets_list = []
     try:
         fetched_tweets = tweepy.Cursor(
@@ -58,7 +64,7 @@ def get_tweets_sentiment(query, count=10):
                 'location': tweet.user.location,
                 'verified': tweet.user.verified,
                 'retweet': tweet.retweet_count,
-                # 'date_tweet': tweet.created_at,
+                'date_tweet': tweet.created_at,
                 'sentiment': get_tweet_sentiment(tweet.full_text)
             }
             print(tweet.full_text)
@@ -94,7 +100,7 @@ def dump_tweets(query, count):
                 'location',
                 'verified', 
                 'retweet', 
-                'date tweet', 
+                'date_tweet', 
                 'candidate'
             ])
         csv_writer.writeheader()
@@ -106,5 +112,5 @@ def dump_tweets(query, count):
 if __name__ == "__main__":  
     statuses = tweepy.Cursor(twitterAPI.user_timeline).items(2)
 
-    dump_tweets("donald trump", 10) 
-    dump_tweets("joe biden", 10) 
+    dump_tweets("donald trump", 250) 
+    dump_tweets("joe biden", 250) 
