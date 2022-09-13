@@ -106,11 +106,10 @@ def dump_tweets(query, count):
         csv_writer.writeheader()
         for tweet in tweets:
             csv_writer.writerow(tweet)
+    
     return file_path
 
 
 if __name__ == "__main__":  
-    statuses = tweepy.Cursor(twitterAPI.user_timeline).items(2)
-
     dump_tweets("donald trump", 250) 
     dump_tweets("joe biden", 250) 
