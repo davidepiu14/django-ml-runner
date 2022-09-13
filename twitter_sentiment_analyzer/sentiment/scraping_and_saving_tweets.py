@@ -17,7 +17,10 @@ auth = OAuthHandler(
 )
 
 auth.set_access_token(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET)
-twitterAPI = tweepy.API(auth)
+twitterAPI = tweepy.API(
+    auth,
+    wait_on_rate_limit = True ,
+)
 
 
 def clean_text(tweet):
@@ -55,9 +58,10 @@ def get_tweets_sentiment(query, count=10):
                 'location': tweet.user.location,
                 'verified': tweet.user.verified,
                 'retweet': tweet.retweet_count,
-                'date_tweet': tweet.created_at,
+                # 'date_tweet': tweet.created_at,
                 'sentiment': get_tweet_sentiment(tweet.full_text)
             }
+            print(tweet.full_text)
             if tweet.retweet_count > 0:
                 if parsed_tweet['text'] not in tweets_list:
                     tweets_list.append(parsed_tweet)
@@ -100,5 +104,7 @@ def dump_tweets(query, count):
 
 
 if __name__ == "__main__":  
-    dump_tweets("donald trump", 1000) 
-    dump_tweets("joe biden", 1000) 
+    statuses = tweepy.Cursor(twitterAPI.user_timeline).items(2)
+
+    dump_tweets("donald trump", 10) 
+    dump_tweets("joe biden", 10) 
