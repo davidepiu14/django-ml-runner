@@ -1,5 +1,4 @@
 ## django-airflow-sentiment-twitter
-* Under development
 
 This project purpose is to be an example for putting into production ML nlp based algorithms. This is what the django app does:
 - fetch tweets data from Twitter API
