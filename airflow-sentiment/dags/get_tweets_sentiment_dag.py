@@ -23,7 +23,6 @@ default_args = {
 
 def get_tweets_data(ti, **kwargs):
     """
-    Get 3pl deliveries data
     """
    
     return True
@@ -31,7 +30,6 @@ def get_tweets_data(ti, **kwargs):
 
 def get_tweets_sentiment(ti, **kwargs):
     """
-    Change the status order to [handling].
     """
     
     return True
