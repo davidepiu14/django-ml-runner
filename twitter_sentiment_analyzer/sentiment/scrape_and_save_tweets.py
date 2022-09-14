@@ -111,5 +111,5 @@ def dump_tweets(query, count):
 
 
 if __name__ == "__main__":  
-    dump_tweets("donald trump", 250) 
-    dump_tweets("joe biden", 250) 
+    dump_tweets("donald trump", 1000) 
+    dump_tweets("joe biden", 1000) 
