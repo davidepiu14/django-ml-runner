@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
+from users.forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
+
 
 def register(request):
     if request.method=='POST':
@@ -15,7 +16,7 @@ def register(request):
         form=UserRegisterForm()
         return render(request,'users/register.html',{'form':form})
 
-@login_required #decoratore aggiunge funzionalità ad una funzione già esistente (USER MUST BE LOGIN TO VIEW THIS PAGE)
+@login_required #s
 def profile(request):
     if request.method=='POST':
 
@@ -26,7 +27,7 @@ def profile(request):
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
-            messages(request,f'Yout account has been updated!')
+            messages.success(request,f'Yout account has been updated!')
             return redirect('profile')
 
     else:
