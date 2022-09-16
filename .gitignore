@@ -166,3 +166,6 @@ twitter_sentiment_analyzer/sentiment/credentials.py
 *.csv
 
 
+# Aiflow
+airflow-sentiment/logs/
+
