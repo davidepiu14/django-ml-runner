@@ -5,8 +5,6 @@ import tweepy
 from textblob import TextBlob
 from tweepy import OAuthHandler
 
-
-
 from airflow.utils import timezone
 from airflow import DAG
 from airflow.operators.python import PythonOperator
@@ -51,22 +49,19 @@ def get_tweets_data(query="Joe Biden", count=10):
             lang="en", 
             tweet_mode='extended'
         ).items(count)
+        
         for tweet in fetched_tweets:
-            parsed_tweet = {
-                'text': tweet.full_text,
-                'name': tweet.user.name,
-                'location': tweet.user.location,
-                'verified': tweet.user.verified,
-                'retweet': tweet.retweet_count,
-                'date_tweet': tweet.created_at,
-            }
-            print(tweet.full_text)
-            if tweet.retweet_count > 0:
-                if parsed_tweet['text'] not in tweets_list:
-                    tweets_list.append(parsed_tweet)
-            else:
-                tweets_list.append(parsed_tweet)
-    
+            if tweet.retweet_count > 0 and tweet not in tweets_list:
+                tweets_list.append({
+                    'text': tweet.full_text,
+                    'name': tweet.user.name,
+                    'location': tweet.user.location,
+                    'verified': tweet.user.verified,
+                    'retweet': tweet.retweet_count,
+                    'date_tweet': tweet.created_at,
+                })
+                print(tweets_list)
+
     except Exception as e:
         print("Error : %s" % str(e))
     
