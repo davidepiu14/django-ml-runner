@@ -24,7 +24,7 @@ At the moment we have a django app that:
 
 ## Folders structure
 - ``django_project/``: django web app with sentiment analysis code
-- ``airflow_sentiment/``: airflow directory, under the ``dag`` folder there will be python dags
+- ``airflow_sentiment/``: airflow directory, python code for dags will be under the ``dag`` folder in the future, now you can find a first draft.
 
 
 
