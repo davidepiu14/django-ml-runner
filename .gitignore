@@ -160,7 +160,7 @@ cython_debug/
 #.idea/
 
 # Twitter credentials
-twitter_sentiment_analyzer/sentiment/credentials.py
+core/sentiment/credentials.py
 
 # Csv file
 *.csv

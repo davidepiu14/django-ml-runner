@@ -7,6 +7,6 @@ This project purpose is to be an example for putting into production ML nlp base
 
 
 ### Directories
-- twitter_sentiment_analyzer: under this folder we have the django project
+- core: under this folder we have the django project
 - airflow-sentiment: airflow directory (wip), all the fetching/processing phase will be handled with airlfow
 
