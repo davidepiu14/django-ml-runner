@@ -169,3 +169,5 @@ core/sentiment/credentials.py
 # Aiflow
 airflow-sentiment/logs/
 
+# Django
+staticfiles
