@@ -13,8 +13,8 @@ from django.views.generic import (
 )
 
 
-CSV_POLARITY_PATH = "/home/davide/code/personal/django_sentiment_analysis/twitter_sentiment_analyzer/sentiment/media_polarity.csv"
-CSV_PIE_PATH = "/home/davide/code/personal/django_sentiment_analysis/twitter_sentiment_analyzer/sentiment/data_for_pie.csv"
+CSV_POLARITY_PATH = "/home/davide/code/personal/django_sentiment_analysis/core/sentiment/media_polarity.csv"
+CSV_PIE_PATH = "/home/davide/code/personal/django_sentiment_analysis/core/sentiment/data_for_pie.csv"
 
 def home(request):
     """Home page function"""
