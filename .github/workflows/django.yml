@@ -24,7 +24,4 @@ jobs:
     - name: Install Dependencies
       run: |
         cd django_project && docker-compose up -d --build
-    - name: Test
-      run: |
-        cd django_project && docker-compose exec web python manage.py test
 
