@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from tasks.sample_tasks import create_task
+from tasks.sentiment_tasks import save_tweets
 from celery.result import AsyncResult
 
 
@@ -12,13 +12,14 @@ def home(request):
 @csrf_exempt
 def run_task(request):
     if request.POST:
-        task_type = request.POST.get("type")
-        task = create_task.delay(int(task_type))
+        candidate = request.POST.get("type")
+        task = save_tweets.delay(candidate)
         return JsonResponse({"task_id": task.id}, status=202)
 
 
 @csrf_exempt
 def get_status(request, task_id):
+
     task_result = AsyncResult(task_id)
     result = {
         "task_id": task_id,
