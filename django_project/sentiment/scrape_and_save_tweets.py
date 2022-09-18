@@ -4,8 +4,7 @@ import tweepy
 from textblob import TextBlob
 from tweepy import OAuthHandler
 
-
-from credentials import (
+from sentiment.credentials import (
     TWITTER_ACCESS_TOKEN,
     TWITTER_CONSUMER_SECRET, 
     TWITTER_ACCESS_TOKEN_SECRET, 
