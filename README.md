@@ -26,7 +26,7 @@ At the moment we have a django app that:
 - ``django_project/``: django web app with sentiment analysis code
 - ``airflow_sentiment/``: airflow directory, python code for dags will be under the ``dag`` folder in the future, now you can find a first draft.
 
-Use cases I would like to cover:
+## Use cases I would like to cover
 - Automatize simple tasks like scraping data from commons sources like LinkedIn, Wikipedia, etc.
 - Automatize running simple and well performing models that doesn't require a super complex architecture
 
