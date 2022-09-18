@@ -19,7 +19,7 @@ services:
 
   celery:
     build: ./django_project
-    command: celery worker --app=core --loglevel=info
+    command: celery worker --app=core --loglevel=info --logfile=logs/celery.log
     volumes:
       - ./django_project/:/usr/src/app/
     environment:
@@ -29,6 +29,7 @@ services:
       - CELERY_BROKER=redis://redis:6379/0
       - CELERY_BACKEND=redis://redis:6379/0
     depends_on:
+      - web
       - redis
 
   redis:
