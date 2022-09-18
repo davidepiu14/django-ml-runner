@@ -27,4 +27,4 @@ jobs:
         pip install -r ./django_project/requirements.txt
     - name: Run Tests
       run: |
-        python manage.py test
+        python ./django_project/manage.py test
