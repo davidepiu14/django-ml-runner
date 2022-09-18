@@ -15,7 +15,7 @@ The **Airflow** part is not covered, in the repository you can find only an atte
 At the moment we have a django app that:
 - Fetch tweets data from Twitter API
 - Process data and classify them and store results in csv format
-- It shows the results with a dashboard build with Django's template engine and Highcharts.
+- It shows the results within a dashboard build with Django's template engine and Highcharts.
 
 ## Under development
 - [ ] Run Python Script from Web Client (using Celery) [DOING]
