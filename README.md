@@ -1,4 +1,6 @@
-## django-airflow-sentiment-twitter
+# django-airflow-sentiment-twitter
+
+[![Django CI](https://github.com/davidepiu14/django-airflow-sentiment/actions/workflows/django.yml/badge.svg)](https://github.com/davidepiu14/django-airflow-sentiment/actions/workflows/django.yml)
 
 This project purpose is to be an example for putting into production ML nlp based algorithms. This is what the django app does:
 - fetch tweets data from Twitter API
