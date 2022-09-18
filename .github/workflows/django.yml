@@ -23,8 +23,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r ./django_project/requirements.txt
-    - name: Run Tests
+        cd django_project && docker-compose up -d --build
+    - name: Test
       run: |
-        python ./django_project/manage.py test
+        cd django_project && docker-compose exec web python manage.py test
+
