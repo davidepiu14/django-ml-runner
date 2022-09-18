@@ -22,7 +22,9 @@ At the moment we have a django app that:
 - [ ] Portfolio page
 - [X] Blog section
 
-### Directories
-- core: under this folder we have the django project
-- airflow-sentiment: airflow directory (wip), all the fetching/processing phase will be handled with airlfow
+## Folders structure
+- ``django_project/``: under this folder we have the django project
+- ``airflow_sentiment/``: airflow directory
+
+
 
