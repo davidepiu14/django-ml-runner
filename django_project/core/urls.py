@@ -31,7 +31,7 @@ urlpatterns = [
     path('sentiment/', include('django_sentiment.urls')),
     path("tasks/<task_id>/", get_status, name="get_status"),
     path("tasks/", run_task, name="run_task"),
-    path("", home, name="home"),
+    path('home/', home, name="home"),
 
 
 ]
