@@ -23,8 +23,8 @@ At the moment we have a django app that:
 - [X] Blog section
 
 ## Folders structure
-- ``django_project/``: under this folder we have the django project
-- ``airflow_sentiment/``: airflow directory
+- ``django_project/``: django web app with sentiment analysis code
+- ``airflow_sentiment/``: airflow directory, under the ``dag`` folder there will be python dags
 
 
 
