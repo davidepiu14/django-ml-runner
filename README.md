@@ -17,7 +17,7 @@ At the moment we have a django app that:
 - Process data and classify them and store results in csv format
 - It shows the results with a dashboard build with Django's template engine and Highcharts.
 
-## Under development:
+## Under development
 - [ ] Run Python Script from Web Client (using Celery) [DOING]
 - [ ] Portfolio page
 - [X] Blog section
