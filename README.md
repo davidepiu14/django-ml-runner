@@ -1,4 +1,4 @@
-# django-ml-executor
+# django-ml-runner
 
 [![Django CI](https://github.com/davidepiu14/django-airflow-sentiment/actions/workflows/django.yml/badge.svg)](https://github.com/davidepiu14/django-airflow-sentiment/actions/workflows/django.yml) [![Pylint](https://github.com/davidepiu14/django-airflow-sentiment/actions/workflows/pylint.yml/badge.svg)](https://github.com/davidepiu14/django-airflow-sentiment/actions/workflows/pylint.yml)
 
