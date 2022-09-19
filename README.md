@@ -10,7 +10,7 @@ Often a ML projecs is a data pipeline who begin with source raw data from csv or
 - **Airflow**: To fetch, process and save data automatically using Airflow DAGs
 - **Docker**: To containerize Django and Aiflow
 
-The **Airflow** part is not covered, in the repository you can find only an attempt of a DAG creation. 
+The **Airflow** part is not covered, in the repository you can find a DAG first draft. 
 
 At the moment we have a django app that:
 - Fetch tweets data from Twitter API
