@@ -21,6 +21,7 @@ At the moment we have a django app that:
 - [ ] Run Python Script from Web Client (using Celery) [DOING]
 - [ ] Portfolio page
 - [X] Blog section
+- [ ] Store data into DBMS
 
 ## Folders structure
 - ``django_project/``: django web app with sentiment analysis code
