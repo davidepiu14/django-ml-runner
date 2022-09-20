@@ -1,8 +1,13 @@
+import pandas as pd
+import logging
 import csv
 import re
 import tweepy
 from textblob import TextBlob
 from tweepy import OAuthHandler
+
+
+_logger = logging.getLogger(__name__)
 
 from sentiment.credentials import (
     TWITTER_ACCESS_TOKEN,
@@ -86,27 +91,10 @@ def dump_tweets(query, count):
     tweets = get_tweets_sentiment(
         query=query,
         count=count
-    )
-    file_path = "tweets_%s.csv" % query.replace(' ', '_')
-    with open(file_path, 'a', encoding="utf8") as file:
-        csv_writer = csv.DictWriter(
-            file,  
-            quotechar='"',
-            fieldnames=[
-                'text', 
-                'sentiment', 
-                'name', 
-                'location',
-                'verified', 
-                'retweet', 
-                'date_tweet', 
-                'candidate'
-            ])
-        csv_writer.writeheader()
-        for tweet in tweets:
-            csv_writer.writerow(tweet)
+    )        
     
-    return file_path
+    return pd.DataFrame(tweets)
+
 
 
 if __name__ == "__main__":  
