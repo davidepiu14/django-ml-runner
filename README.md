@@ -18,10 +18,10 @@ At the moment we have a django app that:
 - It shows the results within a dashboard build with Django's template engine and Highcharts.
 
 ## Under development
-- [ ] Run Python Script from Web Client (using Celery) [DOING]
+- [X] Run Python Script from Web Client (using Celery)
 - [ ] Portfolio page
 - [X] Blog section
-- [ ] Store data into DBMS
+- [X] Store data into DBMS
 
 ## Folders structure
 - ``django_project/``: django web app with sentiment analysis code
