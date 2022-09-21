@@ -15,6 +15,7 @@ class Tweet(models.Model):
     retweet = models.IntegerField()
     date = models.DateTimeField(default=timezone.now)
     account = models.CharField(max_length=500)
+    sentiment = models.TextField()
 
 
     def __str__(self):
