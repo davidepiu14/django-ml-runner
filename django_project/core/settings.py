@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_sentiment',
     'tasks',
-
 ]
 
 MIDDLEWARE = [
