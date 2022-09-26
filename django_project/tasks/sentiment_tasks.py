@@ -15,7 +15,7 @@ def save_tweets(candidate):
     """
     res = {}
     try:
-        TwitterScraper().dump_tweets(candidate, 50)
+        TwitterScraper().dump_tweets(candidate, 300)
         res['result'] = 'OK'
     except Exception as ex:
         print("Error: %s" % (ex))
