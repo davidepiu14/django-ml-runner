@@ -5,7 +5,7 @@
 ## Description
 Often a ML projecs is a data pipeline who begin with source raw data from csv or api and end with the ML model exposed as an api or through a web interface. Put into production Machine Lerning models is a challenging task. For this reason I've created this project, the project goal is not to solve any particular architectural problem or is aimed to be the next cutting-edge tool in Machine Learning, indeed this want to be an experiment to solve a restricted set of problems using and expanding my skills. For now I'm using these technogies:
 - **Django**: For backend and as a template engine
-- **Celery**: Worker for execute several Python scripts for fetch, process and apply Ml models
+- **Celery**: Worker
 - **Redis**: Task broker and to store tasks results
 - **Airflow**: To fetch, process and save data automatically using Airflow DAGs
 - **Docker**: To containerize Django and Aiflow
@@ -18,10 +18,10 @@ At the moment we have a django app that:
 - It shows the results within a dashboard build with Django's template engine and Highcharts.
 
 ## Under development
-- [ ] Run Python Script from Web Client (using Celery) [DOING]
+- [X] Run Python Script from Web Client (using Celery)
 - [ ] Portfolio page
 - [X] Blog section
-- [ ] Store data into DBMS
+- [X] Store data into DBMS
 
 ## Folders structure
 - ``django_project/``: django web app with sentiment analysis code
