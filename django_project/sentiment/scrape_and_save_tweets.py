@@ -5,11 +5,13 @@ import re
 import os
 import sqlite3
 import tweepy
-
+import logging
 from dotenv import load_dotenv
 from textblob import TextBlob
 from tweepy import OAuthHandler
+from django_sentiment.models import Tweet
 
+_logger = logging.getLogger(__name__)
 
 
 class TwitterScraper:
@@ -111,10 +113,21 @@ class TwitterScraper:
                 count=count
             )
         )
+        tweets['candidate'] = query
+
         try:
-            con = sqlite3.connect(self.config['db']['db_path'])
-            tweets.to_sql("tweets", con, if_exists="append")
-            con.close()
+            for tweet in tweets.itertuples():
+                Tweet.objects.create(
+                    name=tweet.name,
+                    text=tweet.text,
+                    sentiment=tweet.sentiment,
+                    location=tweet.location,
+                    verified=tweet.verified,
+                    retweet=tweet.retweet,
+                    date=tweet.date_tweet,
+                    account=tweet.name,
+                    candidate=tweet.candidate
+                )
             res['result'] = 'OK'
         except Exception as ex:
             print("Error: %s" % (ex))
