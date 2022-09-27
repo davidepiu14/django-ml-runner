@@ -8,6 +8,11 @@ import numpy as np
 
 df_trump=pd.read_csv("tweets_donald_trump.csv",sep=",")
 df_biden=pd.read_csv("tweets_joe_biden.csv",sep=",")
+
+
+def process_data(df):
+  
+  
 df_trump=df_trump.dropna(thresh=2)#rimuove le righe con all'interno almeno 2 NA
 df_biden=df_biden.dropna(thresh=2)#rimuove le righe con all'interno almeno 2 NA
 
@@ -19,6 +24,7 @@ def prepr(df):
   """ 
   funzione preprocessing dati
   """
+  df = df.dropna(thresh=3)
   df=df[df['text']!="text"]
   df['text'] = df['text'].apply(clean_tweet)
   df.drop(df.columns[7:], axis=1, inplace=True)
@@ -30,11 +36,11 @@ def prepr(df):
   
   return df 
     
-df_trump=prepr(df_trump)
-df_biden=prepr(df_biden)
+# df_trump=prepr(df_trump)
+# df_biden=prepr(df_biden)
 
-df_biden['candidato'] = 'biden'
-df_trump['candidato'] = 'trump'
+# df_biden['candidato'] = 'biden'
+# df_trump['candidato'] = 'trump'
 
 a = pd.DataFrame(df_biden.groupby('sign').size()/df_biden['sign'].count()*100)
 

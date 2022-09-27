@@ -172,3 +172,7 @@ airflow-sentiment/logs/
 # Django
 staticfiles
 .mailmap
+
+# Jupyter
+.ipynb_checkpoints
+.ipynb

@@ -1,15 +1,17 @@
 import pandas as pd
 import logging
-import csv
 import re
 import os
-import sqlite3
 import tweepy
 import logging
+import ast
+import numpy as np
+
 from dotenv import load_dotenv
 from textblob import TextBlob
 from tweepy import OAuthHandler
-from django_sentiment.models import Tweet
+
+from django_sentiment.models import Tweet, TwitterPolarity
 
 _logger = logging.getLogger(__name__)
 
@@ -48,7 +50,8 @@ class TwitterScraper:
            wait_on_rate_limit = True,
         )
 
-    def clean_text(self, tweet):
+
+    def clean_tweet_text(self, tweet):
         return ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(https?\S+)", " ", tweet).split())
 
 
@@ -101,10 +104,10 @@ class TwitterScraper:
             print("Error : %s" % str(e))
 
 
-    def dump_tweets(self, query, count):
+    def db_save_tweets(self, query, count):
         """
-        get tweets sentiment and save tweet result inside a csv file
-        @return: file
+        get tweets sentiment and save tweet result inside django db
+        @return: dict
         """
         res = {}
         tweets = pd.DataFrame(
@@ -127,6 +130,68 @@ class TwitterScraper:
                     date=tweet.date_tweet,
                     account=tweet.name,
                     candidate=tweet.candidate
+                )
+            res['result'] = 'OK'
+        except Exception as ex:
+            print("Error: %s" % (ex))
+            res['result'] = 'KO'
+        
+        return res['result']
+    
+
+    def pre_process_tweets(self, df_tweets):
+        """
+        Pre process tweets dataframe
+        :return: dataframe
+        """
+        df_tweets = df_tweets[df_tweets['text']!="text"]
+        df_tweets['text'] = df_tweets['text'].apply(self.clean_tweet_text)
+        df_tweets.drop(df_tweets.columns[7:], axis=1, inplace=True)
+        df_tweets = df_tweets.loc[2:]
+        df_tweets = df_tweets.dropna(thresh=3)
+        df_tweets = df_tweets[df_tweets['sentiment'].str.startswith('{')]
+        df_tweets['sentiment'] = df_tweets['sentiment'].apply(ast.literal_eval)
+        df_tweets = pd.concat([df_tweets.drop(['sentiment'], axis=1), df_tweets['sentiment'].apply(pd.Series)], axis=1)
+  
+        return df_tweets 
+    
+
+    def get_all_tweets_from_db(self):
+        """
+        get tweets from django db
+        @return: dataframe
+        """
+        return pd.DataFrame(
+            Tweet.objects.all().values()
+        )
+
+    
+    def compute_time_series_tweets(self):
+        """
+        Compute time series tweets
+        @return: dataframe
+        """
+        df_tweets = self.get_all_tweets_from_db()
+        df_tweets = self.pre_process_tweets(df_tweets)
+        df_tweets['date_tweet'] = pd.to_datetime(df_tweets['date_tweet'],errors='coerce').dt.date
+        df_tweets['date_tweet'] = pd.to_datetime(df_tweets['date_tweet'],errors='coerce').dt.date
+        df_tweets = df_tweets.groupby(["candidato", "date_tweet"]).aggregate({"polarity":np.mean})
+        
+        return pd.DataFrame(df_tweets).reset_index()
+
+
+    def db_save_tweet_polarity_point(self, df):
+        """
+        Save time series tweets inside django db
+        @return: dict
+        """
+        res = {}
+        try:
+            for tweet in df.itertuples():
+                TwitterPolarity.objects.create(
+                    account=tweet.candidato,
+                    date=tweet.date_tweet,
+                    polarity=tweet.polarity
                 )
             res['result'] = 'OK'
         except Exception as ex:
