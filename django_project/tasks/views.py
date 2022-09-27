@@ -19,7 +19,6 @@ def run_task(request):
 
 @csrf_exempt
 def get_status(request, task_id):
-
     task_result = AsyncResult(task_id)
     result = {
         "task_id": task_id,

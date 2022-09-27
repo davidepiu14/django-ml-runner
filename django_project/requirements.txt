@@ -63,3 +63,4 @@ redis==3.5.3
 pytest==6.2.4
 pytest-django==4.4.0
 flower==0.9.7
+python-dotenv==0.21.0
