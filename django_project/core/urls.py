@@ -27,13 +27,11 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name="users/login.html"), name="login"),
     path('profile/', user_views.profile, name="profile"),
     path('logout/', auth_views.LogoutView.as_view(template_name="users/logout.html"), name='logout'),
-    path('', include('blog.urls')),
     path('sentiment/', include('django_sentiment.urls')),
     path("tasks/<task_id>/", get_status, name="get_status"),
     path("tasks/", run_task, name="run_task"),
     path('home/', home, name="home"),
-
-
+    path('', include('blog.urls')),
 ]
 
 if settings.DEBUG:
