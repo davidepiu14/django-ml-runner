@@ -175,7 +175,7 @@ class TwitterScraper:
         df_tweets = self.pre_process_tweets(df_tweets)
         df_tweets['date_tweet'] = pd.to_datetime(df_tweets['date_tweet'],errors='coerce').dt.date
         df_tweets['date_tweet'] = pd.to_datetime(df_tweets['date_tweet'],errors='coerce').dt.date
-        df_tweets = df_tweets.groupby(["candidato", "date_tweet"]).aggregate({"polarity":np.mean})
+        df_tweets = df_tweets.groupby(["candidate", "date_tweet"]).aggregate({"polarity":np.mean})
         
         return pd.DataFrame(df_tweets).reset_index()
 
@@ -189,7 +189,7 @@ class TwitterScraper:
         try:
             for tweet in df.itertuples():
                 TwitterPolarity.objects.create(
-                    account=tweet.candidato,
+                    account=tweet.candidate,
                     date=tweet.date_tweet,
                     polarity=tweet.polarity
                 )

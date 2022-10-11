@@ -146,13 +146,11 @@ class TwitterScraper:
         """
         df_tweets = df_tweets[df_tweets['text']!="text"]
         df_tweets['text'] = df_tweets['text'].apply(self.clean_tweet_text)
-        df_tweets.drop(df_tweets.columns[7:], axis=1, inplace=True)
         df_tweets = df_tweets.loc[2:]
         df_tweets = df_tweets.dropna(thresh=3)
         df_tweets = df_tweets[df_tweets['sentiment'].str.startswith('{')]
         df_tweets['sentiment'] = df_tweets['sentiment'].apply(ast.literal_eval)
         df_tweets = pd.concat([df_tweets.drop(['sentiment'], axis=1), df_tweets['sentiment'].apply(pd.Series)], axis=1)
-  
         return df_tweets 
     
 
@@ -173,10 +171,10 @@ class TwitterScraper:
         """
         df_tweets = self.get_all_tweets_from_db()
         df_tweets = self.pre_process_tweets(df_tweets)
-        df_tweets['date_tweet'] = pd.to_datetime(df_tweets['date_tweet'],errors='coerce').dt.date
-        df_tweets['date_tweet'] = pd.to_datetime(df_tweets['date_tweet'],errors='coerce').dt.date
-        df_tweets = df_tweets.groupby(["candidato", "date_tweet"]).aggregate({"polarity":np.mean})
-        
+        df_tweets['date_tweet'] = pd.to_datetime(df_tweets['date'],errors='coerce').dt.date
+        df_tweets['date_tweet'] = pd.to_datetime(df_tweets['date'],errors='coerce').dt.date
+        df_tweets = df_tweets.groupby(["candidate", "date"]).aggregate({"polarity":np.mean})
+
         return pd.DataFrame(df_tweets).reset_index()
 
 
@@ -189,9 +187,9 @@ class TwitterScraper:
         try:
             for tweet in df.itertuples():
                 TwitterPolarity.objects.create(
-                    account=tweet.candidato,
-                    date=tweet.date_tweet,
-                    polarity=tweet.polarity
+                    account=tweet.candidate,
+                    date=tweet.date,
+                    polarity=tweet.polarity,
                 )
             res['result'] = 'OK'
         except Exception as ex:

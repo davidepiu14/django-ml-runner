@@ -26,10 +26,9 @@ class Tweet(models.Model):
 
 class TwitterPolarity(models.Model):
 
-    tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE)
-    polarity = models.IntegerField()
+    polarity = models.FloatField()
     date = models.DateTimeField(default=timezone.now)
     account = models.CharField(max_length=500)
 
     def __str__(self):
-        return self.tweet.name
+        return str(self.id)
