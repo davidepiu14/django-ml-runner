@@ -57,10 +57,10 @@ class TwitterScraper:
 
     def get_tweet_sentiment(self, tweet):
         '''
-        Comput sentiment with TextBlogclean_text
+        Comput sentiment with TextBlog
         @return: polarity
         '''
-        text = self.clean_text(tweet)
+        text = self.clean_tweet_text(tweet)
         analysis = TextBlob(text)
         if analysis.sentiment.polarity > 0:
             return {'sign': 'positive', 'polarity': analysis.sentiment.polarity}
@@ -120,7 +120,6 @@ class TwitterScraper:
 
         try:
             for tweet in tweets.itertuples():
-                print(tweet)
                 Tweet.objects.create(
                     name=tweet.name,
                     text=tweet.text,
