@@ -14,8 +14,9 @@ def save_tweets(candidate):
     Save tweets inside SQLite db
     """
     res = {}
+    tw = TwitterScraper()
     try:
-        TwitterScraper().dump_tweets(candidate, 300)
+        tw.db_save_tweets(candidate, 300)
         res['result'] = 'OK'
     except Exception as ex:
         print("Error: %s" % (ex))
