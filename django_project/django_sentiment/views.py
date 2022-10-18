@@ -1,7 +1,8 @@
 import imp
 import pandas as pd
+import numpy as np
 from django.http import HttpResponse
-from django_sentiment.models import Tweet
+from django_sentiment.models import Tweet, TwitterPolarity
 from django.shortcuts import render, get_object_or_404
 from django_sentiment.management.commands._private import TwitterScraper
 
@@ -19,12 +20,15 @@ def dahsboard_sentiment(request):
     @return: render template
     """
     ts = TwitterScraper()
-    tweets = Tweet.objects.all().values('name','text','sign','polarity','location','verified','retweet','date','account','candidate') 
+    tweets = TwitterPolarity.objects.all().values('polarity','date','account','sign') 
     df = pd.DataFrame(tweets)
     date = list(df['date'].values)
-    df_test = ts.compute_time_series_tweets()
-    print(df_test)
-    print("*"*72)
+    g = df.groupby(["account", "date"])
+    daily_averages = g.aggregate({"polarity":np.mean})
+    daily_averages=pd.DataFrame(daily_averages).reset_index()
+    df_polarity = df.pivot(columns=['date','account'], values='polarity').reset_index()
+    print(df_polarity)
+    print("*"*100)
     table_content = df.to_html(index=None)
     table_content = table_content.replace(
         'class="dataframe"', 
@@ -36,7 +40,7 @@ def dahsboard_sentiment(request):
         'blog/dashboard.html', 
         context={
             'data': date,
-            'Trump': list(df[df['candidate'] == 'trump'].values),
+            'Trump': list(df[df['account'] == 'trump'].values),
             'Biden': list(df[df['candidate'] == 'biden'].values),
             'table_data': table_content,
 
