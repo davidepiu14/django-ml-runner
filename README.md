@@ -19,7 +19,6 @@ At the moment we have a django app that:
 
 ## Under development
 - [X] Run Python Script from Web Client (using Celery)
-- [ ] Portfolio page
 - [X] Blog section
 - [X] Store data into DBMS
 
